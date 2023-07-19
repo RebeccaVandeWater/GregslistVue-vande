@@ -41,7 +41,6 @@ import CarCard from '../components/CarCard.vue';
 import ModalComponent from '../components/ModalComponent.vue';
 import CarForm from '../components/CarForm.vue';
 import { computed, onMounted } from 'vue';
-import { logger } from '../utils/Logger.js';
 import Pop from '../utils/Pop.js';
 import { carsService } from '../services/CarsService.js'
 import { AppState } from '../AppState.js';

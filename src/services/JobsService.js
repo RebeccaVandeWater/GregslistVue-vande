@@ -23,6 +23,22 @@ class JobsService {
 
     AppState.jobs.push(job)
   }
+
+  setJobToEdit(job) {
+    AppState.selectedJob = job
+  }
+
+  async editJob(jobData) {
+    const res = await api.put(`api/jobs/${jobData.id}`, jobData)
+
+    logger.log(res)
+
+    const updatedJob = new Job(res.data)
+
+    const jobIndex = AppState.jobs.findIndex(j => j.id == jobData.id)
+
+    AppState.jobs.splice(jobIndex, 1, updatedJob)
+  }
 }
 
 export const jobsService = new JobsService

@@ -49,26 +49,37 @@
 
 
 <script>
-import { ref } from 'vue';
+import { ref, watchEffect } from 'vue';
 import Pop from '../utils/Pop.js';
 import { jobsService } from '../services/JobsService.js';
 import { Modal } from 'bootstrap';
+import { AppState } from '../AppState.js';
 
 export default {
   setup(){
     const editable = ref({})
 
+    watchEffect(() =>{
+      
+      if(AppState.selectedJob){
+        const jobFromForm = {...AppState.selectedJob}
+
+        editable.value = jobFromForm
+      }
+
+
+    })
+
     return {
       editable,
       
       submitAction(){
-        this.createJob()
-        // if(editable.value.id){
-        //   this.editJob()
-        // }
-        // else{
-        //   this.createJob()
-        // }
+        if(editable.value.id){
+          this.editJob()
+        }
+        else{
+          this.createJob()
+        }
       },
 
       async createJob(){
@@ -76,6 +87,22 @@ export default {
           const jobData = editable.value 
 
           await jobsService.createJob(jobData)
+
+          editable.value = {}
+
+          Modal.getOrCreateInstance('#formModal').hide()
+        } catch (error) {
+          Pop.error(error.message)
+        }
+      },
+
+      async editJob(){
+        try {
+          const jobData = editable.value
+
+          await jobsService.editJob(jobData)
+
+          editable.value = {}
 
           Modal.getOrCreateInstance('#formModal').hide()
         } catch (error) {

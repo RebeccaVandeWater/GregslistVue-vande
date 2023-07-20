@@ -25,10 +25,10 @@
         </p>
       </div>
       <div class="m-3">
-        <button class="btn btn-danger me-4" type="button" title="Unlist Job">
+        <button v-if="account.id == jobProp.creatorId" class="btn btn-danger me-4" type="button" title="Unlist Job">
           <i class="mdi mdi-delete"></i>
         </button>
-        <button class="btn btn-info" type="button" title="Edit Job">
+        <button v-if="account.id == jobProp.creatorId" @click="setJobToEdit()" class="btn btn-info" type="button" title="Edit Job">
           <i class="mdi mdi-pencil"></i>
         </button>
       </div>
@@ -38,14 +38,28 @@
 
 
 <script>
+import { computed } from 'vue';
 import { Job } from '../models/Jobs.js';
+import { AppState } from '../AppState.js';
+import { jobsService } from '../services/JobsService.js';
+import { Modal } from 'bootstrap';
 
 export default {
   props:{
     jobProp:{type:Job, required:true}
   },
-  setup(){
-    return {}
+  setup(props){
+    return {
+      account: computed(() => AppState.account),
+
+      setJobToEdit(){
+        const job = props.jobProp
+
+        jobsService.setJobToEdit(job)
+
+        Modal.getOrCreateInstance('#formModal').show()
+      }
+    }
   }
 }
 </script>

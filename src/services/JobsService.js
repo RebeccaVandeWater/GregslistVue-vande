@@ -39,6 +39,16 @@ class JobsService {
 
     AppState.jobs.splice(jobIndex, 1, updatedJob)
   }
+
+  async removeJob(jobId) {
+    const res = await api.delete(`api/jobs/${jobId}`)
+
+    logger.log(res.data)
+
+    const jobIndex = AppState.jobs.findIndex(j => j.id == jobId)
+
+    AppState.jobs.splice(jobIndex, 1)
+  }
 }
 
 export const jobsService = new JobsService

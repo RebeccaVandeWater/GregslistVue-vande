@@ -25,7 +25,7 @@
         </p>
       </div>
       <div class="m-3">
-        <button v-if="account.id == jobProp.creatorId" class="btn btn-danger me-4" type="button" title="Unlist Job">
+        <button v-if="account.id == jobProp.creatorId" @click="removeJob()" class="btn btn-danger me-4" type="button" title="Unlist Job">
           <i class="mdi mdi-delete"></i>
         </button>
         <button v-if="account.id == jobProp.creatorId" @click="setJobToEdit()" class="btn btn-info" type="button" title="Edit Job">
@@ -43,6 +43,7 @@ import { Job } from '../models/Jobs.js';
 import { AppState } from '../AppState.js';
 import { jobsService } from '../services/JobsService.js';
 import { Modal } from 'bootstrap';
+import Pop from '../utils/Pop.js';
 
 export default {
   props:{
@@ -58,6 +59,22 @@ export default {
         jobsService.setJobToEdit(job)
 
         Modal.getOrCreateInstance('#formModal').show()
+      },
+
+      async removeJob(){
+        try{
+          const removeConfirm = await Pop.confirm('Are you sure you want to unlist this job?')
+
+          if(!removeConfirm){
+            return
+          }
+
+          const jobId = props.jobProp.id
+
+          await jobsService.removeJob(jobId)
+        } catch(error){
+          Pop.error(error.message)
+        }
       }
     }
   }

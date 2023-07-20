@@ -2,17 +2,17 @@
   <form @submit.prevent="submitAction()">
           <div class="d-flex ms-2 flex-column">
             <div class="mb-2 form-floating">
-              <input v-model="editable.bedrooms" type="number" name="bedrooms" id="bedrooms" max="20" min="1" placeholder="Bedrooms" class="form-control">
+              <input v-model="editable.bedrooms" type="number" name="bedrooms" id="bedrooms" max="20" min="1" placeholder="Bedrooms" class="form-control" required>
               <label for="bedrooms" class="me-2">Bedrooms</label>
             </div>
   
             <div class="mb-2 form-floating">
-              <input v-model="editable.bathrooms" type="number" name="bathrooms" id="bathrooms" max="20" min="1" placeholder="Bathrooms" class="form-control">
+              <input v-model="editable.bathrooms" type="number" name="bathrooms" id="bathrooms" max="20" min="1" placeholder="Bathrooms" class="form-control" required>
               <label for="bathrooms" class="me-2">Bathrooms</label>
             </div>
 
             <div class="mb-2 form-floating">
-              <input v-model="editable.levels" type="number" name="levels" id="levels" max="20" min="1" placeholder="Levels" class="form-control">
+              <input v-model="editable.levels" type="number" name="levels" id="levels" max="20" min="1" placeholder="Levels" class="form-control" required>
               <label for="levels" class="me-2">Levels</label>
             </div>
 
@@ -22,12 +22,12 @@
             </div>
 
             <div class="mb-2 form-floating">
-              <input v-model="editable.year" type="number" name="year" id="year" max="2030" min="1800" placeholder="Year" class="form-control">
+              <input v-model="editable.year" type="number" name="year" id="year" max="2030" min="1800" placeholder="Year" class="form-control" required>
               <label for="year" class="me-2">Year</label>
             </div>
 
             <div class="form-floating mb-2 ">
-              <input v-model="editable.price" type="number" name="price" id="price" max="5000000" min="1" placeholder="Price" class="form-control">
+              <input v-model="editable.price" type="number" name="price" id="price" max="5000000" min="1" placeholder="Price" class="form-control" required>
               <label for="price" class="me-2">Price</label>
             </div>
 

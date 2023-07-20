@@ -1,5 +1,5 @@
 <template>
-  <form @submit.prevent="createHouse()">
+  <form @submit.prevent="submitAction()">
           <div class="d-flex ms-2 flex-column">
             <div class="mb-2 form-floating">
               <input v-model="editable.bedrooms" type="number" name="bedrooms" id="bedrooms" max="20" min="1" placeholder="Bedrooms" class="form-control">
@@ -52,6 +52,7 @@ import { ref, watchEffect } from 'vue'
 import { housesService } from '../services/HousesService.js'
 import Pop from '../utils/Pop.js'
 import { AppState } from '../AppState.js'
+import { Modal } from 'bootstrap'
 
 export default {
   setup(){
@@ -69,15 +70,43 @@ watchEffect(() => {
 return {
   editable,
 
+  submitAction(){
+    if(editable.value.id){
+      this.editHouse()
+    }
+    else{
+      this.createHouse()
+    }
+  },
+
   async createHouse(){
     try{
-      const house = editable.value
+      const houseData = editable.value
 
-      await housesService.createHouse(house)
+      await housesService.createHouse(houseData)
+
+      editable.value = {}
+
+      Modal.getOrCreateInstance('#formModal').hide()
+
     } catch(error){
       Pop.error(error.message)
     }
   },
+
+  async editHouse(){
+    try {
+      const houseData = editable.value
+
+      await housesService.editHouse(houseData)
+
+      editable.value = {}
+
+      Modal.getOrCreateInstance('#formModal').hide()
+    } catch (error) {
+      Pop.error(error.message)
+    }
+  }
 }
 }
 }

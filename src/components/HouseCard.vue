@@ -42,6 +42,7 @@ import { AppState } from '../AppState.js';
 import { House } from '../models/House.js';
 import Pop from '../utils/Pop.js';
 import { housesService } from '../services/HousesService.js';
+import { Modal } from 'bootstrap';
 
 export default {
   props:{
@@ -73,6 +74,9 @@ export default {
         const houseToEdit = props.houseProp
 
         housesService.setHouseToEdit(houseToEdit)
+
+        Modal.getOrCreateInstance('#formModal').show()
+
       }
     }
   }

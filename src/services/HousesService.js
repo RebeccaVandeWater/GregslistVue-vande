@@ -38,6 +38,18 @@ class HousesService {
   setHouseToEdit(houseToEdit) {
     AppState.selectedHouse = houseToEdit
   }
+
+  async editHouse(houseData) {
+    const res = await api.put(`api/houses/${houseData.id}`, houseData)
+
+    logger.log(res.data)
+
+    const houseIndex = AppState.houses.findIndex(h => h.id == houseData.id)
+
+    const updatedHouse = new House(res.data)
+
+    AppState.houses.splice(houseIndex, 1, updatedHouse)
+  }
 }
 
 export const housesService = new HousesService
